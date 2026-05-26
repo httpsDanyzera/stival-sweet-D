@@ -1,0 +1,120 @@
+<!DOCTYPE html> <!-- Define que o arquivo usa HTML5. -->
+<html lang="pt-BR"> <!-- Define o idioma da página. -->
+<head> <!-- Abre as configurações da página. -->
+  <meta charset="UTF-8"> <!-- Permite acentos corretamente. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta a tela para celular. -->
+  <title>Stival Sweet</title> <!-- Nome que aparece na aba do navegador. -->
+  <link rel="stylesheet" href="./styles.css"> <!-- Carrega o CSS do sistema. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <!-- Carrega a biblioteca do Supabase. -->
+  <script src="./supabase-config.js"></script> <!-- Carrega a configuração do Supabase. -->
+</head> <!-- Fecha as configurações da página. -->
+<body> <!-- Abre o conteúdo visível. -->
+  <header class="topo-stival"> <!-- Cabeçalho visual oficial, feito apenas com HTML e CSS. -->
+    <div class="topo-faixa"></div> <!-- Faixa vinho fina do topo. -->
+
+    <div class="topo-conteudo"> <!-- Área central do cabeçalho. -->
+      <div class="icone-brigadeiro" aria-hidden="true"></div> <!-- Ícone simples de brigadeiro sem usar imagem. -->
+      <h1>Stival Sweet</h1> <!-- Nome principal da marca. -->
+      <p>Onde a tradição do brigadeiro encontra a sofisticação do sabor.</p> <!-- Frase oficial da marca. -->
+      <div class="topo-detalhe">❦</div> <!-- Detalhe decorativo central. -->
+    </div> <!-- Fecha a área central do cabeçalho. -->
+  </header> <!-- Fecha o cabeçalho visual oficial. -->
+
+  <nav class="abas"> <!-- Cria os botões das abas. -->
+    <button class="aba ativa" data-aba="preparo" type="button">1. Preparo</button> <!-- Abre a preparação. -->
+    <button class="aba" data-aba="venda" type="button">2. Venda</button> <!-- Abre venda rápida. -->
+    <button class="aba" data-aba="fechamento" type="button">3. Fechamento</button> <!-- Abre fechamento. -->
+    <button class="aba" data-aba="historico" type="button">Histórico</button> <!-- Abre histórico. -->
+  </nav> <!-- Fecha os botões das abas. -->
+
+  <main class="container"> <!-- Cria a área principal. -->
+    <section id="preparo" class="painel visivel"> <!-- Aba de preparação do dia. -->
+      <h2>Preparo antes das vendas</h2> <!-- Título da aba. -->
+      <p class="dica">Preencha uma vez antes de começar: data, quantidade feita, preço, troco inicial e custos.</p> <!-- Texto de ajuda. -->
+
+      <div class="grade duas"> <!-- Grade com duas colunas. -->
+        <label>Data da venda<input id="dataVenda" type="date"></label> <!-- Campo da data. -->
+        <label>Observação<input id="observacao" type="text" placeholder="Ex.: praça, evento, faculdade"></label> <!-- Campo opcional. -->
+      </div> <!-- Fecha a grade. -->
+
+      <div class="tabela-preparo"> <!-- Tabela dos produtos preparados. -->
+        <div class="linha cabecalho"><span>Produto</span><span>Qtd. feita</span><span>Valor unitário</span></div> <!-- Cabeçalho da tabela. -->
+        <div class="linha"><strong>Tradicional</strong><input id="feitoTradicional" type="number" min="0" placeholder="0"><input id="precoTradicional" class="moeda" inputmode="decimal" placeholder="0,00"></div> <!-- Linha do tradicional. -->
+        <div class="linha"><strong>Ninho</strong><input id="feitoNinho" type="number" min="0" placeholder="0"><input id="precoNinho" class="moeda" inputmode="decimal" placeholder="0,00"></div> <!-- Linha do Ninho. -->
+        <div class="linha"><strong>Café</strong><input id="feitoCafe" type="number" min="0" placeholder="0"><input id="precoCafe" class="moeda" inputmode="decimal" placeholder="0,00"></div> <!-- Linha do café. -->
+      </div> <!-- Fecha a tabela. -->
+
+      <div class="grade duas"> <!-- Grade com campos financeiros iniciais. -->
+        <label>Troco inicial<input id="trocoInicial" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Campo do troco inicial. -->
+        <label>Custos do dia<input id="custosDia" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Campo dos custos. -->
+      </div> <!-- Fecha a grade. -->
+
+      <button id="salvarPreparo" class="botao principal" type="button">Salvar preparo e vender</button> <!-- Salva o preparo. -->
+      <p id="statusBanco" class="status"></p> <!-- Mostra se está local ou conectado ao banco. -->
+    </section> <!-- Fecha a aba de preparo. -->
+
+    <section id="venda" class="painel"> <!-- Aba de vendas rápidas. -->
+      <h2>Venda rápida</h2> <!-- Título da aba. -->
+      <p class="dica">Escolha doce ou comissão, escolha a forma de pagamento e registre a venda.</p> <!-- Texto de ajuda. -->
+
+      <div id="estoqueResumo" class="estoque"></div> <!-- Resumo automático de feito, vendido e sobrou. -->
+
+      <div class="venda-rapida"> <!-- Bloco rápido de venda. -->
+        <label>Item<select id="itemVenda"></select></label> <!-- Escolha de doces ou comissão. -->
+        <label id="campoQuantidade">Quantidade<input id="quantidadeVenda" type="number" min="1" value="1"></label> <!-- Quantidade vendida. -->
+        <label id="campoValorComissao" class="oculto">Valor da comissão<input id="valorComissao" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Valor manual da comissão. -->
+        <div class="pagamentos"> <!-- Botões de pagamento. -->
+          <button class="pagamento ativo" data-forma="pix" type="button">Pix</button> <!-- Seleciona Pix. -->
+          <button class="pagamento" data-forma="dinheiro" type="button">Dinheiro</button> <!-- Seleciona dinheiro. -->
+          <button class="pagamento" data-forma="cartao" type="button">Cartão</button> <!-- Seleciona cartão. -->
+        </div> <!-- Fecha pagamentos. -->
+        <button id="registrarVenda" class="botao principal" type="button">Registrar</button> <!-- Registra a venda. -->
+      </div> <!-- Fecha venda rápida. -->
+
+      <div class="cards"> <!-- Cards de totais. -->
+        <article><span>Faturamento doces</span><strong id="totalDoces">R$ 0,00</strong></article> <!-- Total dos doces. -->
+        <article><span>Comissões</span><strong id="totalComissoes">R$ 0,00</strong></article> <!-- Total de comissões. -->
+        <article><span>Pix</span><strong id="totalPix">R$ 0,00</strong></article> <!-- Total em Pix. -->
+        <article><span>Dinheiro</span><strong id="totalDinheiro">R$ 0,00</strong></article> <!-- Total em dinheiro. -->
+        <article><span>Cartão</span><strong id="totalCartao">R$ 0,00</strong></article> <!-- Total em cartão. -->
+      </div> <!-- Fecha cards. -->
+
+      <h3>Lançamentos</h3> <!-- Título da lista de lançamentos. -->
+      <div id="listaLancamentos" class="lista"></div> <!-- Lista preenchida pelo JavaScript. -->
+    </section> <!-- Fecha a aba de venda. -->
+
+    <section id="fechamento" class="painel"> <!-- Aba de fechamento. -->
+      <h2>Fechamento do dia</h2> <!-- Título da aba. -->
+      <p class="dica">Informe apenas o dinheiro físico contado no final da venda.</p> <!-- Texto de ajuda. -->
+
+      <div class="grade duas"> <!-- Grade do fechamento. -->
+        <label>Dinheiro final contado<input id="dinheiroFinal" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Dinheiro contado. -->
+        <label>Melhor observação do dia<input id="obsFechamento" type="text" placeholder="Ex.: vendeu bem no Pix"></label> <!-- Observação final opcional. -->
+      </div> <!-- Fecha grade. -->
+
+      <div class="cards grandes"> <!-- Cards do fechamento. -->
+        <article><span>Faturamento</span><strong id="fechFaturamento">R$ 0,00</strong></article> <!-- Faturamento sem comissão. -->
+        <article><span>Comissões</span><strong id="fechComissoes">R$ 0,00</strong></article> <!-- Comissões separadas. -->
+        <article><span>Custos</span><strong id="fechCustos">R$ 0,00</strong></article> <!-- Custos. -->
+        <article><span>Lucro dos doces</span><strong id="fechLucro">R$ 0,00</strong></article> <!-- Lucro dos doces. -->
+        <article><span>Caixa contado</span><strong id="fechCaixa">R$ 0,00</strong><small id="fechDiferenca">Informe o dinheiro final.</small></article> <!-- Conferência de caixa. -->
+      </div> <!-- Fecha cards. -->
+
+      <div class="botoes"> <!-- Grupo dos botões finais. -->
+        <button id="salvarDia" class="botao principal" type="button">Salvar dia</button> <!-- Salva no banco/local. -->
+        <button id="enviarWhatsapp" class="botao" type="button">WhatsApp</button> <!-- Envia relatório. -->
+        <button id="gerarPdf" class="botao" type="button">Imprimir / PDF</button> <!-- Imprime relatório. -->
+        <button id="novoDia" class="botao perigo" type="button">Novo dia</button> <!-- Limpa a tela. -->
+      </div> <!-- Fecha botões. -->
+    </section> <!-- Fecha fechamento. -->
+
+    <section id="historico" class="painel"> <!-- Aba do histórico. -->
+      <h2>Histórico</h2> <!-- Título do histórico. -->
+      <p id="melhorDia" class="melhor">Nenhum dia salvo ainda.</p> <!-- Mostra melhor dia. -->
+      <div id="listaHistorico" class="lista"></div> <!-- Lista de dias salvos. -->
+    </section> <!-- Fecha histórico. -->
+  </main> <!-- Fecha a área principal. -->
+
+  <script src="./app.js"></script> <!-- Carrega a lógica do sistema. -->
+</body> <!-- Fecha o conteúdo visível. -->
+</html> <!-- Fecha o documento. -->
