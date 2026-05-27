@@ -570,6 +570,18 @@ input:focus, select:focus { /* Estiliza campos ativos. */
     font-size: 17px !important; /* Reduz a frase. */
     max-width: 92vw !important; /* Evita que o texto encoste nas laterais. */
   }
+  .aba-conteudo {
+    display: none;
+}
+
+.aba-conteudo.ativo {
+    display: block;
+}
+
+.botao-aba.ativo {
+    background: #8b001f;
+    color: white;
+}
 
   .topo-stival::after { /* Ajusta o detalhe lateral no celular. */
     font-size: 95px !important; /* Reduz o detalhe. */
