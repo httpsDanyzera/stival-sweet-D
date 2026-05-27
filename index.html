@@ -1,133 +1,732 @@
-<!DOCTYPE html> <!-- Define que o arquivo usa HTML5. -->
-<html lang="pt-BR"> <!-- Define o idioma da página. -->
-<head> <!-- Abre as configurações da página. -->
-  <meta charset="UTF-8"> <!-- Permite acentos corretamente. -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta a tela para celular. -->
-  <title>Stival Sweet</title> <!-- Nome que aparece na aba do navegador. -->
-  <link rel="stylesheet" href="./styles.css"> <!-- Carrega o CSS do sistema. -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <!-- Carrega a biblioteca do Supabase. -->
-  <script src="./supabase-config.js"></script> <!-- Carrega a configuração do Supabase. -->
-</head> <!-- Fecha as configurações da página. -->
-<body> <!-- Abre o conteúdo visível. -->
-  <header class="topo-stival"> <!-- Cabeçalho visual oficial, feito apenas com HTML e CSS. -->
-    <div class="topo-faixa"></div> <!-- Faixa vinho fina do topo. -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stival Sweet</title>
 
-    <div class="topo-conteudo"> <!-- Área central do cabeçalho. -->
-      <div class="icone-brigadeiro" aria-hidden="true"></div> <!-- Ícone simples de brigadeiro sem usar imagem. -->
-      <h1>Stival Sweet</h1> <!-- Nome principal da marca. -->
-      <p>Onde a tradição do brigadeiro encontra a sofisticação do sabor.</p> <!-- Frase oficial da marca. -->
-      <div class="topo-detalhe">❦</div> <!-- Detalhe decorativo central. -->
-    </div> <!-- Fecha a área central do cabeçalho. -->
-  </header> <!-- Fecha o cabeçalho visual oficial. -->
- <nav class="menu-abas">
-    <button class="botao-aba ativo" data-aba="preparo">1. Preparo</button>
-    <button class="botao-aba" data-aba="venda">2. Venda</button>
-    <button class="botao-aba" data-aba="fechamento">3. Fechamento</button>
-    <button class="botao-aba" data-aba="historico">Histórico</button>
+<style>
+:root {
+    --vinho: #8b001f;
+    --vinho-escuro: #650017;
+    --fundo: #fff4ee;
+    --branco: #ffffff;
+    --borda: #efcaca;
+    --texto: #230007;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fffaf7;
+    color: var(--texto);
+}
+
+.topo {
+    background: var(--fundo);
+    border-bottom: 2px solid var(--vinho);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.faixa {
+    height: 10px;
+    background: var(--vinho);
+}
+
+.icone-brigadeiro {
+    width: 72px;
+    height: 72px;
+    margin: 32px auto 10px;
+    border-radius: 50% 50% 44% 44%;
+    background:
+        radial-gradient(circle at 30% 25%, #2b120b 0 4px, transparent 5px),
+        radial-gradient(circle at 65% 30%, #2b120b 0 4px, transparent 5px),
+        radial-gradient(circle at 50% 55%, #7a3a24 0 62%, #3b1c13 63%);
+    position: relative;
+}
+
+.icone-brigadeiro::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    bottom: -8px;
+    width: 56px;
+    height: 18px;
+    background: #3b1c13;
+    border-radius: 0 0 18px 18px;
+}
+
+.topo h1 {
+    margin: 0;
+    color: var(--vinho);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 76px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.topo p {
+    color: var(--vinho);
+    font-size: 24px;
+    margin: 18px 0;
+}
+
+.detalhe {
+    color: var(--vinho);
+    font-size: 34px;
+    margin-bottom: 36px;
+}
+
+.topo::after {
+    content: "❧";
+    position: absolute;
+    right: 34px;
+    top: 82px;
+    font-size: 160px;
+    color: var(--vinho);
+    opacity: 0.13;
+    transform: rotate(-8deg);
+}
+
+.abas {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    padding: 18px;
+    background: white;
+    border-bottom: 1px solid var(--borda);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.abas button {
+    border: 1px solid var(--borda);
+    background: #fff7f5;
+    color: var(--vinho);
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.abas button.ativo {
+    background: var(--vinho);
+    color: white;
+    box-shadow: 0 8px 20px rgba(139, 0, 31, 0.25);
+}
+
+.container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.aba {
+    display: none;
+}
+
+.aba.ativo {
+    display: block;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 26px rgba(139, 0, 31, 0.08);
+}
+
+h2 {
+    margin-top: 0;
+    color: var(--vinho);
+    font-size: 28px;
+}
+
+.texto-ajuda {
+    color: #75545b;
+    font-size: 17px;
+    margin-bottom: 22px;
+}
+
+.grid {
+    display: grid;
+    gap: 16px;
+}
+
+.duas {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.tres {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+label {
+    display: grid;
+    gap: 8px;
+    font-weight: bold;
+    color: #4b0010;
+}
+
+input,
+select {
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 18px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--vinho);
+    box-shadow: 0 0 0 3px rgba(139, 0, 31, 0.08);
+}
+
+.tabela {
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 18px;
+}
+
+.linha {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr 1.2fr;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.linha:last-child {
+    border-bottom: none;
+}
+
+.cabecalho {
+    background: var(--vinho);
+    color: white;
+    font-weight: bold;
+}
+
+.total-produto {
+    font-weight: bold;
+    color: var(--vinho);
+}
+
+.botao {
+    margin-top: 22px;
+    border: none;
+    background: var(--vinho);
+    color: white;
+    padding: 15px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.botao.secundario {
+    background: white;
+    color: var(--vinho);
+    border: 1px solid var(--vinho);
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.resumo article {
+    background: #fff8f5;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.resumo span {
+    display: block;
+    color: var(--vinho);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.resumo strong {
+    color: var(--vinho);
+    font-size: 26px;
+}
+
+.historico {
+    background: #fff8f5;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 16px;
+    white-space: pre-wrap;
+    min-height: 120px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+@media (max-width: 850px) {
+    .topo h1 {
+        font-size: 46px;
+    }
+
+    .topo p {
+        font-size: 17px;
+        line-height: 1.4;
+    }
+
+    .topo::after {
+        font-size: 90px;
+        right: 8px;
+        top: 90px;
+    }
+
+    .abas {
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+
+    .duas,
+    .tres,
+    .resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .linha {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalho {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+    <div class="faixa"></div>
+    <div class="icone-brigadeiro"></div>
+    <h1>Stival Sweet</h1>
+    <p>Onde a tradição do brigadeiro encontra a sofisticação do sabor.</p>
+    <div class="detalhe">❦</div>
+</header>
+
+<nav class="abas">
+    <button class="ativo" onclick="abrirAba('preparo', this)">1. Preparo</button>
+    <button onclick="abrirAba('venda', this)">2. Venda</button>
+    <button onclick="abrirAba('fechamento', this)">3. Fechamento</button>
+    <button onclick="abrirAba('historico', this)">Histórico</button>
 </nav>
-  <section id="aba-preparo" class="aba-conteudo ativo">
-    <!-- conteúdo do preparo -->
+
+<main class="container">
+
+<section id="preparo" class="aba ativo">
+    <div class="card">
+        <h2>◆ Preparo antes das vendas</h2>
+        <p class="texto-ajuda">Preencha uma vez antes de começar: data, quantidade feita, preço, troco inicial e custos.</p>
+
+        <div class="grid duas">
+            <label>Data da venda
+                <input id="dataVenda" type="date">
+            </label>
+
+            <label>Observação
+                <input id="observacao" type="text" placeholder="Ex.: praça, evento, faculdade">
+            </label>
+        </div>
+
+        <div class="tabela">
+            <div class="linha cabecalho">
+                <span>Produto</span>
+                <span>Qtd. feita</span>
+                <span>Valor unitário</span>
+                <span>Vendeu</span>
+                <span>Sobrou</span>
+                <span>Total</span>
+            </div>
+
+            <div class="linha produto" data-produto="Tradicional">
+                <strong>Tradicional</strong>
+                <input class="qtd-feita" type="number" min="0" value="0">
+                <input class="valor-unitario" type="number" min="0" step="0.01" value="0">
+                <span class="qtd-vendida">0</span>
+                <span class="qtd-sobrou">0</span>
+                <span class="total-produto">R$ 0,00</span>
+            </div>
+
+            <div class="linha produto" data-produto="Ninho">
+                <strong>Ninho</strong>
+                <input class="qtd-feita" type="number" min="0" value="0">
+                <input class="valor-unitario" type="number" min="0" step="0.01" value="0">
+                <span class="qtd-vendida">0</span>
+                <span class="qtd-sobrou">0</span>
+                <span class="total-produto">R$ 0,00</span>
+            </div>
+
+            <div class="linha produto" data-produto="Café">
+                <strong>Café</strong>
+                <input class="qtd-feita" type="number" min="0" value="0">
+                <input class="valor-unitario" type="number" min="0" step="0.01" value="0">
+                <span class="qtd-vendida">0</span>
+                <span class="qtd-sobrou">0</span>
+                <span class="total-produto">R$ 0,00</span>
+            </div>
+        </div>
+
+        <div class="grid duas" style="margin-top: 22px;">
+            <label>Troco inicial
+                <input id="trocoInicial" type="number" min="0" step="0.01" value="0">
+            </label>
+
+            <label>Custos do dia
+                <input id="custosDia" type="number" min="0" step="0.01" value="0">
+            </label>
+        </div>
+
+        <button class="botao" onclick="irParaVenda()">Salvar preparo e vender</button>
+    </div>
 </section>
 
-<section id="aba-venda" class="aba-conteudo">
-    <!-- conteúdo da venda -->
+<section id="venda" class="aba">
+    <div class="card">
+        <h2>◆ Venda rápida</h2>
+        <p class="texto-ajuda">Durante a venda, escolha doce ou comissão, forma de pagamento e adicione.</p>
+
+        <div class="grid tres">
+            <label>Tipo
+                <select id="tipoLancamento" onchange="controlarTipoLancamento()">
+                    <option value="doce">Doce</option>
+                    <option value="comissao">Comissão</option>
+                </select>
+            </label>
+
+            <label>Produto
+                <select id="produtoVenda">
+                    <option>Tradicional</option>
+                    <option>Ninho</option>
+                    <option>Café</option>
+                </select>
+            </label>
+
+            <label>Quantidade
+                <input id="quantidadeVenda" type="number" min="1" value="1">
+            </label>
+
+            <label>Pagamento
+                <select id="pagamentoVenda">
+                    <option>Pix</option>
+                    <option>Dinheiro</option>
+                    <option>Cartão</option>
+                </select>
+            </label>
+
+            <label>Valor da comissão
+                <input id="valorComissao" type="number" min="0" step="0.01" placeholder="Só para comissão">
+            </label>
+        </div>
+
+        <button class="botao" onclick="adicionarLancamento()">Adicionar</button>
+    </div>
 </section>
 
-<section id="aba-fechamento" class="aba-conteudo">
-    <!-- conteúdo do fechamento -->
+<section id="fechamento" class="aba">
+    <div class="card">
+        <h2>◆ Fechamento do dia</h2>
+
+        <div class="grid duas">
+            <label>Dinheiro final contado
+                <input id="dinheiroFinal" type="number" min="0" step="0.01" value="0">
+            </label>
+        </div>
+
+        <div class="resumo">
+            <article>
+                <span>Faturamento</span>
+                <strong id="resumoFaturamento">R$ 0,00</strong>
+            </article>
+
+            <article>
+                <span>Comissão</span>
+                <strong id="resumoComissao">R$ 0,00</strong>
+            </article>
+
+            <article>
+                <span>Custos</span>
+                <strong id="resumoCustos">R$ 0,00</strong>
+            </article>
+
+            <article>
+                <span>Lucro</span>
+                <strong id="resumoLucro">R$ 0,00</strong>
+            </article>
+
+            <article>
+                <span>Caixa</span>
+                <strong id="resumoCaixa">R$ 0,00</strong>
+            </article>
+        </div>
+
+        <div class="botoes">
+            <button class="botao" onclick="salvarLocal()">Salvar venda</button>
+            <button class="botao secundario" onclick="enviarWhatsapp()">Enviar relatório</button>
+            <button class="botao secundario" onclick="window.print()">Imprimir / PDF</button>
+        </div>
+    </div>
 </section>
 
-<section id="aba-historico" class="aba-conteudo">
-    <!-- conteúdo do histórico -->
+<section id="historico" class="aba">
+    <div class="card">
+        <h2>◆ Histórico</h2>
+        <div id="listaHistorico" class="historico">Nenhuma venda lançada ainda.</div>
+    </div>
 </section>
-  <main class="container"> <!-- Cria a área principal. -->
-    <section id="preparo" class="painel visivel"> <!-- Aba de preparação do dia. -->
-      <h2>Preparo antes das vendas</h2> <!-- Título da aba. -->
-      <p class="dica">Preencha uma vez antes de começar: data, quantidade feita, preço, troco inicial e custos.</p> <!-- Texto de ajuda. -->
 
-      <div class="grade duas"> <!-- Grade com duas colunas. -->
-        <label>Data da venda<input id="dataVenda" type="date"></label> <!-- Campo da data. -->
-        <label>Observação<input id="observacao" type="text" placeholder="Ex.: praça, evento, faculdade"></label> <!-- Campo opcional. -->
-      </div> <!-- Fecha a grade. -->
+</main>
 
-      <div class="tabela-preparo"> <!-- Tabela dos produtos preparados. -->
-        <div class="linha cabecalho"><span>Produto</span><span>Qtd. feita</span><span>Valor unitário</span></div> <!-- Cabeçalho da tabela. -->
-        <div class="linha"><strong>Tradicional</strong><input id="feitoTradicional" type="number" min="0" placeholder="0"><input id="precoTradicional" class="moeda" inputmode="decimal" placeholder="0,00"></div> <!-- Linha do tradicional. -->
-        <div class="linha"><strong>Ninho</strong><input id="feitoNinho" type="number" min="0" placeholder="0"><input id="precoNinho" class="moeda" inputmode="decimal" placeholder="0,00"></div> <!-- Linha do Ninho. -->
-        <div class="linha"><strong>Café</strong><input id="feitoCafe" type="number" min="0" placeholder="0"><input id="precoCafe" class="moeda" inputmode="decimal" placeholder="0,00"></div> <!-- Linha do café. -->
-      </div> <!-- Fecha a tabela. -->
+<script>
+let lancamentos = [];
 
-      <div class="grade duas"> <!-- Grade com campos financeiros iniciais. -->
-        <label>Troco inicial<input id="trocoInicial" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Campo do troco inicial. -->
-        <label>Custos do dia<input id="custosDia" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Campo dos custos. -->
-      </div> <!-- Fecha a grade. -->
+function moeda(valor) {
+    return Number(valor || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
 
-      <button id="btnSalvarPreparo" type="button">Salvar preparo e vender</button>
-      <p id="statusBanco" class="status"></p> <!-- Mostra se está local ou conectado ao banco. -->
-    </section> <!-- Fecha a aba de preparo. -->
+function numero(id) {
+    return Number(document.getElementById(id).value || 0);
+}
 
-    <section id="venda" class="painel"> <!-- Aba de vendas rápidas. -->
-      <h2>Venda rápida</h2> <!-- Título da aba. -->
-      <p class="dica">Escolha doce ou comissão, escolha a forma de pagamento e registre a venda.</p> <!-- Texto de ajuda. -->
+function abrirAba(nome, botao) {
+    document.querySelectorAll(".aba").forEach(aba => aba.classList.remove("ativo"));
+    document.querySelectorAll(".abas button").forEach(btn => btn.classList.remove("ativo"));
 
-      <div id="estoqueResumo" class="estoque"></div> <!-- Resumo automático de feito, vendido e sobrou. -->
+    document.getElementById(nome).classList.add("ativo");
 
-      <div class="venda-rapida"> <!-- Bloco rápido de venda. -->
-        <label>Item<select id="itemVenda"></select></label> <!-- Escolha de doces ou comissão. -->
-        <label id="campoQuantidade">Quantidade<input id="quantidadeVenda" type="number" min="1" value="1"></label> <!-- Quantidade vendida. -->
-        <label id="campoValorComissao" class="oculto">Valor da comissão<input id="valorComissao" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Valor manual da comissão. -->
-        <div class="pagamentos"> <!-- Botões de pagamento. -->
-          <button class="pagamento ativo" data-forma="pix" type="button">Pix</button> <!-- Seleciona Pix. -->
-          <button class="pagamento" data-forma="dinheiro" type="button">Dinheiro</button> <!-- Seleciona dinheiro. -->
-          <button class="pagamento" data-forma="cartao" type="button">Cartão</button> <!-- Seleciona cartão. -->
-        </div> <!-- Fecha pagamentos. -->
-        <button id="registrarVenda" class="botao principal" type="button">Registrar</button> <!-- Registra a venda. -->
-      </div> <!-- Fecha venda rápida. -->
+    if (botao) {
+        botao.classList.add("ativo");
+    }
+}
 
-      <div class="cards"> <!-- Cards de totais. -->
-        <article><span>Faturamento doces</span><strong id="totalDoces">R$ 0,00</strong></article> <!-- Total dos doces. -->
-        <article><span>Comissões</span><strong id="totalComissoes">R$ 0,00</strong></article> <!-- Total de comissões. -->
-        <article><span>Pix</span><strong id="totalPix">R$ 0,00</strong></article> <!-- Total em Pix. -->
-        <article><span>Dinheiro</span><strong id="totalDinheiro">R$ 0,00</strong></article> <!-- Total em dinheiro. -->
-        <article><span>Cartão</span><strong id="totalCartao">R$ 0,00</strong></article> <!-- Total em cartão. -->
-      </div> <!-- Fecha cards. -->
+function irParaVenda() {
+    abrirAba("venda", document.querySelectorAll(".abas button")[1]);
+}
 
-      <h3>Lançamentos</h3> <!-- Título da lista de lançamentos. -->
-      <div id="listaLancamentos" class="lista"></div> <!-- Lista preenchida pelo JavaScript. -->
-    </section> <!-- Fecha a aba de venda. -->
+function produtos() {
+    return [...document.querySelectorAll(".produto")].map(linha => {
+        const produto = linha.dataset.produto;
+        const feita = Number(linha.querySelector(".qtd-feita").value || 0);
+        const valor = Number(linha.querySelector(".valor-unitario").value || 0);
 
-    <section id="fechamento" class="painel"> <!-- Aba de fechamento. -->
-      <h2>Fechamento do dia</h2> <!-- Título da aba. -->
-      <p class="dica">Informe apenas o dinheiro físico contado no final da venda.</p> <!-- Texto de ajuda. -->
+        const vendida = lancamentos
+            .filter(item => item.tipo === "doce" && item.produto === produto)
+            .reduce((soma, item) => soma + item.quantidade, 0);
 
-      <div class="grade duas"> <!-- Grade do fechamento. -->
-        <label>Dinheiro final contado<input id="dinheiroFinal" class="moeda" inputmode="decimal" placeholder="0,00"></label> <!-- Dinheiro contado. -->
-        <label>Melhor observação do dia<input id="obsFechamento" type="text" placeholder="Ex.: vendeu bem no Pix"></label> <!-- Observação final opcional. -->
-      </div> <!-- Fecha grade. -->
+        const total = vendida * valor;
+        const sobrou = Math.max(feita - vendida, 0);
 
-      <div class="cards grandes"> <!-- Cards do fechamento. -->
-        <article><span>Faturamento</span><strong id="fechFaturamento">R$ 0,00</strong></article> <!-- Faturamento sem comissão. -->
-        <article><span>Comissões</span><strong id="fechComissoes">R$ 0,00</strong></article> <!-- Comissões separadas. -->
-        <article><span>Custos</span><strong id="fechCustos">R$ 0,00</strong></article> <!-- Custos. -->
-        <article><span>Lucro dos doces</span><strong id="fechLucro">R$ 0,00</strong></article> <!-- Lucro dos doces. -->
-        <article><span>Caixa contado</span><strong id="fechCaixa">R$ 0,00</strong><small id="fechDiferenca">Informe o dinheiro final.</small></article> <!-- Conferência de caixa. -->
-      </div> <!-- Fecha cards. -->
+        linha.querySelector(".qtd-vendida").textContent = vendida;
+        linha.querySelector(".qtd-sobrou").textContent = sobrou;
+        linha.querySelector(".total-produto").textContent = moeda(total);
 
-      <div class="botoes"> <!-- Grupo dos botões finais. -->
-        <button id="salvarDia" class="botao principal" type="button">Salvar dia</button> <!-- Salva no banco/local. -->
-        <button id="enviarWhatsapp" class="botao" type="button">WhatsApp</button> <!-- Envia relatório. -->
-        <button id="gerarPdf" class="botao" type="button">Imprimir / PDF</button> <!-- Imprime relatório. -->
-        <button id="novoDia" class="botao perigo" type="button">Novo dia</button> <!-- Limpa a tela. -->
-      </div> <!-- Fecha botões. -->
-    </section> <!-- Fecha fechamento. -->
+        return { produto, feita, valor, vendida, sobrou, total };
+    });
+}
 
-    <section id="historico" class="painel"> <!-- Aba do histórico. -->
-      <h2>Histórico</h2> <!-- Título do histórico. -->
-      <p id="melhorDia" class="melhor">Nenhum dia salvo ainda.</p> <!-- Mostra melhor dia. -->
-      <div id="listaHistorico" class="lista"></div> <!-- Lista de dias salvos. -->
-    </section> <!-- Fecha histórico. -->
-  </main> <!-- Fecha a área principal. -->
+function controlarTipoLancamento() {
+    const tipo = document.getElementById("tipoLancamento").value;
+    const produto = document.getElementById("produtoVenda");
+    const quantidade = document.getElementById("quantidadeVenda");
+    const comissao = document.getElementById("valorComissao");
 
-  <script src="./app.js"></script> <!-- Carrega a lógica do sistema. -->
-</body> <!-- Fecha o conteúdo visível. -->
-</html> <!-- Fecha o documento. -->
+    if (tipo === "comissao") {
+        produto.disabled = true;
+        quantidade.disabled = true;
+        comissao.disabled = false;
+    } else {
+        produto.disabled = false;
+        quantidade.disabled = false;
+        comissao.disabled = true;
+        comissao.value = "";
+    }
+}
+
+function adicionarLancamento() {
+    const tipo = document.getElementById("tipoLancamento").value;
+    const pagamento = document.getElementById("pagamentoVenda").value;
+
+    if (tipo === "comissao") {
+        const valor = numero("valorComissao");
+
+        if (valor <= 0) {
+            alert("Informe o valor da comissão.");
+            return;
+        }
+
+        lancamentos.push({
+            tipo: "comissao",
+            produto: "Comissão",
+            quantidade: 1,
+            pagamento,
+            valor_total: valor
+        });
+    } else {
+        const produto = document.getElementById("produtoVenda").value;
+        const quantidade = numero("quantidadeVenda");
+        const info = produtos().find(item => item.produto === produto);
+
+        if (quantidade <= 0) {
+            alert("Informe a quantidade vendida.");
+            return;
+        }
+
+        if (!info || info.valor <= 0) {
+            alert("Informe o valor unitário do produto no preparo.");
+            abrirAba("preparo", document.querySelectorAll(".abas button")[0]);
+            return;
+        }
+
+        if (info.vendida + quantidade > info.feita) {
+            alert("A quantidade vendida é maior do que a quantidade feita.");
+            return;
+        }
+
+        lancamentos.push({
+            tipo: "doce",
+            produto,
+            quantidade,
+            pagamento,
+            valor_total: quantidade * info.valor
+        });
+    }
+
+    document.getElementById("quantidadeVenda").value = 1;
+    document.getElementById("valorComissao").value = "";
+
+    atualizarTudo();
+}
+
+function calcularResumo() {
+    const listaProdutos = produtos();
+
+    const faturamento = listaProdutos.reduce((soma, item) => soma + item.total, 0);
+
+    const comissao = lancamentos
+        .filter(item => item.tipo === "comissao")
+        .reduce((soma, item) => soma + item.valor_total, 0);
+
+    const custos = numero("custosDia");
+
+    const lucro = faturamento - custos;
+
+    const dinheiroVendido = lancamentos
+        .filter(item => item.tipo === "doce" && item.pagamento === "Dinheiro")
+        .reduce((soma, item) => soma + item.valor_total, 0);
+
+    const trocoInicial = numero("trocoInicial");
+
+    const dinheiroFinal = numero("dinheiroFinal");
+
+    const caixa = dinheiroFinal - trocoInicial - dinheiroVendido;
+
+    document.getElementById("resumoFaturamento").textContent = moeda(faturamento);
+    document.getElementById("resumoComissao").textContent = moeda(comissao);
+    document.getElementById("resumoCustos").textContent = moeda(custos);
+    document.getElementById("resumoLucro").textContent = moeda(lucro);
+    document.getElementById("resumoCaixa").textContent = moeda(caixa);
+
+    return { faturamento, comissao, custos, lucro, caixa };
+}
+
+function atualizarHistorico() {
+    const historico = document.getElementById("listaHistorico");
+
+    if (!lancamentos.length) {
+        historico.textContent = "Nenhuma venda lançada ainda.";
+        return;
+    }
+
+    historico.textContent = lancamentos.map((item, index) => {
+        return `${index + 1}. ${item.produto} | Qtd: ${item.quantidade} | ${item.pagamento} | ${moeda(item.valor_total)}`;
+    }).join("\n");
+}
+
+function atualizarTudo() {
+    produtos();
+    calcularResumo();
+    atualizarHistorico();
+}
+
+function salvarLocal() {
+    const resumo = calcularResumo();
+
+    const venda = {
+        data: document.getElementById("dataVenda").value,
+        observacao: document.getElementById("observacao").value,
+        lancamentos,
+        resumo
+    };
+
+    localStorage.setItem("stivalSweetUltimaVenda", JSON.stringify(venda));
+
+    alert("Venda salva neste navegador.");
+}
+
+function textoRelatorio() {
+    const resumo = calcularResumo();
+
+    return [
+        "Stival Sweet - Relatório",
+        "Data: " + document.getElementById("dataVenda").value,
+        "",
+        "Lançamentos:",
+        lancamentos.map(item => `${item.produto} | Qtd: ${item.quantidade} | ${item.pagamento} | ${moeda(item.valor_total)}`).join("\n"),
+        "",
+        "Faturamento: " + moeda(resumo.faturamento),
+        "Comissão: " + moeda(resumo.comissao),
+        "Custos: " + moeda(resumo.custos),
+        "Lucro: " + moeda(resumo.lucro),
+        "Caixa: " + moeda(resumo.caixa)
+    ].join("\n");
+}
+
+function enviarWhatsapp() {
+    const numeroWhatsapp = "5562995294481";
+    const link = "https://wa.me/" + numeroWhatsapp + "?text=" + encodeURIComponent(textoRelatorio());
+    window.open(link, "_blank");
+}
+
+document.querySelectorAll("input, select").forEach(campo => {
+    campo.addEventListener("input", atualizarTudo);
+    campo.addEventListener("change", atualizarTudo);
+});
+
+document.getElementById("dataVenda").value = new Date().toISOString().slice(0, 10);
+
+controlarTipoLancamento();
+atualizarTudo();
+</script>
+
+</body>
+</html>
