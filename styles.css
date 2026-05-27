@@ -1,576 +1,144 @@
-:root { /* Define todas as cores e medidas usadas no sistema. */
-  --vinho: #8a0b25; /* Cor vinho principal do layout aprovado. */
-  --vinho-escuro: #5a0718; /* Cor vinho escura para textos fortes. */
-  --vinho-medio: #b4233d; /* Cor vinho média para alertas e destaques. */
-  --vinho-claro: #fff0f2; /* Fundo vinho bem claro para cards suaves. */
-  --creme: #fffaf4; /* Fundo creme usado no topo aprovado. */
-  --branco: #ffffff; /* Cor branca dos painéis. */
-  --texto: #2b1117; /* Cor principal de texto. */
-  --cinza: #76646a; /* Cor de textos auxiliares. */
-  --borda: #ead1d6; /* Borda clara em tom vinho. */
-  --dourado: #c99242; /* Tom dourado dos detalhes. */
-  --verde: #217a46; /* Verde para sobra positiva. */
-  --vermelho: #c12b42; /* Vermelho para falta no caixa. */
-  --sombra: 0 18px 45px rgba(90, 7, 24, 0.12); /* Sombra elegante dos painéis. */
-  --raio: 22px; /* Arredondamento padrão. */
-}
-
-* { /* Aplica regra base em todos os elementos. */
-  box-sizing: border-box; /* Faz padding e borda entrarem no tamanho do elemento. */
-}
-
-html { /* Ajusta a rolagem da página. */
-  scroll-behavior: smooth; /* Deixa a rolagem mais suave. */
-}
-
-body { /* Define o corpo geral do site. */
-  margin: 0; /* Remove margem padrão do navegador. */
-  background: linear-gradient(180deg, #fff7f6 0%, #fffdfb 45%, #fff6f7 100%); /* Cria fundo claro e sofisticado. */
-  color: var(--texto); /* Define a cor principal dos textos. */
-  font-family: Arial, Helvetica, sans-serif; /* Usa fonte simples e fácil de ler. */
-  min-height: 100vh; /* Garante altura mínima da tela inteira. */
-}
-
-h1, h2, h3, p { /* Remove margem superior dos títulos e parágrafos. */
-  margin-top: 0; /* Evita espaços extras acima dos textos. */
-}
-
-button, input, select { /* Padroniza fonte de botões e campos. */
-  font: inherit; /* Usa a mesma fonte do site. */
-}
-
-.topo-aprovado { /* Monta o topo no estilo do modelo aprovado. */
-  background: radial-gradient(circle at 18% 18%, rgba(201, 146, 66, 0.12), transparent 22%), linear-gradient(180deg, #fffaf4 0%, #fffdf9 100%); /* Fundo creme com brilho sutil. */
-  border-top: 10px solid var(--vinho); /* Faixa vinho superior igual ao modelo aprovado. */
-  border-bottom: 1px solid var(--borda); /* Linha suave inferior. */
-  overflow: hidden; /* Esconde detalhes que saem do topo. */
-  padding: 22px 16px 24px; /* Espaçamento interno do topo. */
-  position: relative; /* Permite posicionar ornamentos. */
-  text-align: center; /* Centraliza a marca. */
-}
-
-.borda-rendada { /* Cria detalhe superior lembrando renda/recorte. */
-  background: radial-gradient(circle at 20px 0, transparent 19px, var(--creme) 20px); /* Desenha repetição arredondada. */
-  background-size: 40px 22px; /* Define tamanho de cada repetição. */
-  height: 18px; /* Altura do detalhe. */
-  left: 0; /* Encosta à esquerda. */
-  opacity: 0.9; /* Deixa o detalhe suave. */
-  position: absolute; /* Posiciona dentro do topo. */
-  right: 0; /* Encosta à direita. */
-  top: 8px; /* Posiciona abaixo da faixa vinho. */
-}
-
-.topo-aprovado::before { /* Cria detalhe ornamental grande e discreto no fundo. */
-  color: rgba(138, 11, 37, 0.09); /* Define vinho transparente. */
-  content: "❦"; /* Insere ornamento decorativo. */
-  font-family: Georgia, serif; /* Usa fonte elegante para o ornamento. */
-  font-size: 150px; /* Tamanho grande do ornamento. */
-  left: 26px; /* Posiciona do lado esquerdo. */
-  line-height: 1; /* Remove espaço vertical extra. */
-  position: absolute; /* Permite posicionamento livre. */
-  top: 72px; /* Posiciona verticalmente. */
-  transform: rotate(-14deg); /* Inclina o ornamento. */
-}
-
-.topo-aprovado::after { /* Cria detalhe ornamental no lado direito. */
-  color: rgba(138, 11, 37, 0.12); /* Define vinho transparente. */
-  content: "❦"; /* Insere ornamento decorativo. */
-  font-family: Georgia, serif; /* Usa fonte elegante. */
-  font-size: 150px; /* Define tamanho grande. */
-  line-height: 1; /* Remove espaço vertical extra. */
-  position: absolute; /* Posiciona livremente. */
-  right: 34px; /* Posiciona do lado direito. */
-  top: 72px; /* Posiciona verticalmente. */
-  transform: rotate(14deg); /* Inclina o ornamento. */
-}
-
-.marca-aprovada { /* Organiza a área da logo no topo. */
-  margin: 0 auto; /* Centraliza horizontalmente. */
-  max-width: 980px; /* Define largura parecida com o layout aprovado. */
-  position: relative; /* Mantém a marca acima dos ornamentos. */
-  z-index: 2; /* Coloca a marca na frente. */
-}
-
-.logo-aprovada { /* Ajusta a arte da Stival Sweet no topo. */
-  display: block; /* Remove espaço extra de imagem. */
-  height: auto; /* Mantém proporção da imagem. */
-  margin: 0 auto; /* Centraliza a imagem. */
-  max-height: 285px; /* Evita que a imagem fique alta demais. */
-  max-width: min(900px, 94vw); /* Ajusta em computador e celular. */
-  object-fit: contain; /* Mostra a arte sem cortar. */
-  width: 100%; /* Permite ocupar a largura disponível. */
-}
-
-.ornamento { /* Estiliza ornamentos pequenos do cabeçalho. */
-  color: rgba(138, 11, 37, 0.72); /* Usa vinho com transparência. */
-  font-family: Georgia, serif; /* Usa fonte ornamental. */
-  font-size: 34px; /* Define tamanho do ornamento. */
-  position: absolute; /* Posiciona no topo. */
-  top: 78%; /* Posiciona perto da base do cabeçalho. */
-  z-index: 2; /* Mantém acima do fundo. */
-}
-
-.ornamento.esquerdo { /* Posiciona ornamento esquerdo. */
-  left: 7vw; /* Distância lateral esquerda. */
-}
-
-.ornamento.direito { /* Posiciona ornamento direito. */
-  right: 7vw; /* Distância lateral direita. */
-  transform: scaleX(-1); /* Espelha o ornamento. */
-}
-
-.abas { /* Estiliza a barra das abas. */
-  background: rgba(255, 255, 255, 0.95); /* Fundo branco levemente transparente. */
-  border-bottom: 1px solid var(--borda); /* Linha inferior suave. */
-  box-shadow: 0 10px 25px rgba(90, 7, 24, 0.08); /* Sombra elegante abaixo das abas. */
-  display: flex; /* Coloca abas lado a lado. */
-  gap: 12px; /* Espaço entre abas. */
-  justify-content: center; /* Centraliza abas. */
-  overflow-x: auto; /* Permite rolagem horizontal no celular. */
-  padding: 14px 5vw; /* Espaçamento interno. */
-  position: sticky; /* Mantém as abas visíveis ao rolar. */
-  top: 0; /* Cola no topo quando rolar. */
-  z-index: 10; /* Coloca acima do conteúdo. */
-}
-
-.aba, .botao { /* Define aparência básica de abas e botões. */
-  border: 0; /* Remove borda padrão. */
-  border-radius: 14px; /* Arredonda cantos. */
-  cursor: pointer; /* Mostra cursor de clique. */
-  font-weight: 800; /* Deixa o texto forte. */
-  padding: 12px 18px; /* Espaço interno. */
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; /* Suaviza interações. */
-}
-
-.aba { /* Estiliza aba normal. */
-  background: #fff6f7; /* Fundo quase branco. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  color: var(--vinho); /* Texto vinho. */
-  min-width: 122px; /* Largura mínima para parecer botão. */
-  white-space: nowrap; /* Evita quebrar o texto. */
-}
-
-.aba.ativa { /* Estiliza aba ativa. */
-  background: linear-gradient(135deg, var(--vinho), var(--vinho-escuro)); /* Fundo vinho com profundidade. */
-  box-shadow: 0 8px 18px rgba(138, 11, 37, 0.2); /* Sombra da aba ativa. */
-  color: var(--branco); /* Texto branco. */
-}
-
-.aba:hover, .botao:hover { /* Define efeito ao passar o mouse. */
-  transform: translateY(-1px); /* Eleva levemente. */
-}
-
-.container { /* Define o conteúdo principal. */
-  margin: 0 auto; /* Centraliza a página. */
-  max-width: 1220px; /* Limita largura no desktop. */
-  padding: 26px 5vw 44px; /* Espaçamento externo. */
-}
-
-.painel { /* Estiliza os painéis de cada aba. */
-  background: rgba(255, 255, 255, 0.97); /* Fundo branco com leve transparência. */
-  border: 1px solid var(--borda); /* Borda vinho suave. */
-  border-radius: var(--raio); /* Cantos arredondados. */
-  box-shadow: var(--sombra); /* Sombra elegante. */
-  display: none; /* Esconde painéis inativos. */
-  padding: 24px; /* Espaçamento interno. */
-}
-
-.painel.visivel { /* Mostra painel ativo. */
-  display: block; /* Exibe o painel escolhido. */
-}
-
-.painel h2 { /* Estiliza títulos dos painéis. */
-  color: var(--vinho); /* Define título vinho. */
-  font-size: 1.45rem; /* Define tamanho do título. */
-  letter-spacing: 0.02em; /* Dá leve espaçamento. */
-  margin-bottom: 8px; /* Espaço abaixo. */
-  text-transform: uppercase; /* Deixa com aparência de seção. */
-}
-
-.painel h2::before { /* Adiciona símbolo antes do título. */
-  color: var(--vinho); /* Cor vinho. */
-  content: "◆"; /* Ícone simples. */
-  font-size: 0.82rem; /* Tamanho menor. */
-  margin-right: 10px; /* Espaço até o texto. */
-  vertical-align: middle; /* Alinha com o título. */
-}
-
-.painel h3 { /* Estiliza subtítulos. */
-  color: var(--vinho-escuro); /* Define vinho escuro. */
-  font-size: 1.08rem; /* Define tamanho. */
-  margin-bottom: 12px; /* Espaço abaixo. */
-}
-
-.dica, .status, small { /* Estiliza textos de ajuda. */
-  color: var(--cinza); /* Usa cinza elegante. */
-  line-height: 1.45; /* Melhora leitura. */
-}
-
-.grade { /* Define grade base dos campos. */
-  display: grid; /* Usa grid. */
-  gap: 16px; /* Espaçamento entre campos. */
-  margin-bottom: 18px; /* Espaço abaixo. */
-}
-
-.duas { /* Define grade de duas colunas. */
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Duas colunas responsivas. */
-}
-
-label { /* Estiliza rótulos dos campos. */
-  color: var(--vinho-escuro); /* Texto vinho escuro. */
-  display: flex; /* Organiza label e campo. */
-  flex-direction: column; /* Coloca o campo abaixo do texto. */
-  font-weight: 800; /* Texto forte. */
-  gap: 8px; /* Espaço entre texto e campo. */
-}
-
-input, select { /* Estiliza entradas e seletores. */
-  background: #fffefe; /* Fundo branco. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  border-radius: 14px; /* Cantos arredondados. */
-  color: var(--texto); /* Cor digitada. */
-  outline: none; /* Remove contorno padrão. */
-  padding: 13px 14px; /* Espaço interno. */
-  width: 100%; /* Ocupa a largura total. */
-}
-
-input:focus, select:focus { /* Estiliza campos ativos. */
-  border-color: var(--vinho); /* Borda vinho ao focar. */
-  box-shadow: 0 0 0 4px rgba(138, 11, 37, 0.1); /* Destaque suave. */
-}
-
-.tabela-preparo { /* Estiliza tabela de preparo. */
-  border: 1px solid var(--borda); /* Borda externa. */
-  border-radius: 18px; /* Cantos arredondados. */
-  margin: 18px 0; /* Espaço em cima e embaixo. */
-  overflow: hidden; /* Mantém arredondamento. */
-}
-
-.linha { /* Estiliza cada linha de tabela. */
-  align-items: center; /* Centraliza verticalmente. */
-  background: var(--branco); /* Fundo branco. */
-  border-bottom: 1px solid #f0dde1; /* Linha divisória. */
-  display: grid; /* Usa grid. */
-  gap: 14px; /* Espaço entre colunas. */
-  grid-template-columns: 1.2fr 1fr 1fr; /* Define larguras. */
-  padding: 14px; /* Espaçamento interno. */
-}
-
-.linha:last-child { /* Remove borda da última linha. */
-  border-bottom: 0; /* Sem linha final. */
-}
-
-.cabecalho { /* Estiliza cabeçalho da tabela. */
-  background: linear-gradient(135deg, var(--vinho), var(--vinho-escuro)); /* Fundo vinho. */
-  color: var(--branco); /* Texto branco. */
-  font-weight: 900; /* Texto forte. */
-  text-transform: uppercase; /* Título em caixa alta. */
-}
-
-.estoque { /* Estiliza resumo de estoque. */
-  display: grid; /* Usa grid. */
-  gap: 14px; /* Espaço entre cards. */
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Três cards lado a lado. */
-  margin: 18px 0; /* Espaço externo. */
-}
-
-.estoque article, .cards article { /* Estiliza cards de estoque e resumo. */
-  background: linear-gradient(180deg, #fffefe 0%, #fff7f8 100%); /* Fundo claro com profundidade. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  border-radius: 18px; /* Cantos arredondados. */
-  box-shadow: 0 8px 22px rgba(90, 7, 24, 0.06); /* Sombra leve. */
-  padding: 16px; /* Espaçamento interno. */
-}
-
-.estoque strong, .cards strong { /* Estiliza números principais dos cards. */
-  color: var(--vinho); /* Texto vinho. */
-  display: block; /* Ocupa uma linha. */
-  font-size: 1.24rem; /* Aumenta valor. */
-  margin-top: 6px; /* Espaço acima. */
-}
-
-.venda-rapida { /* Estiliza bloco de venda rápida. */
-  align-items: end; /* Alinha campos pela base. */
-  background: linear-gradient(135deg, #fff2f4 0%, #fffafa 100%); /* Fundo claro aprovado. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  border-radius: 20px; /* Cantos arredondados. */
-  display: grid; /* Usa grid. */
-  gap: 14px; /* Espaço entre campos. */
-  grid-template-columns: 1.4fr 0.8fr 1.3fr auto; /* Define colunas rápidas. */
-  margin: 18px 0; /* Espaço externo. */
-  padding: 18px; /* Espaçamento interno. */
-}
-
-.pagamentos { /* Organiza botões de pagamento. */
-  display: flex; /* Coloca botões lado a lado. */
-  gap: 8px; /* Espaço entre botões. */
-}
-
-.pagamento { /* Estiliza forma de pagamento. */
-  background: var(--branco); /* Fundo branco. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  border-radius: 12px; /* Cantos arredondados. */
-  color: var(--vinho); /* Texto vinho. */
-  cursor: pointer; /* Cursor de clique. */
-  font-weight: 900; /* Texto forte. */
-  padding: 12px 13px; /* Espaço interno. */
-}
-
-.pagamento.ativo { /* Estiliza pagamento selecionado. */
-  background: linear-gradient(135deg, var(--vinho), var(--vinho-escuro)); /* Fundo vinho. */
-  color: var(--branco); /* Texto branco. */
-}
-
-.botao { /* Estiliza botões gerais. */
-  background: #fff3f5; /* Fundo claro. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  color: var(--vinho); /* Texto vinho. */
-}
-
-.botao.principal { /* Estiliza botão principal. */
-  background: linear-gradient(135deg, var(--vinho), var(--vinho-escuro)); /* Fundo vinho. */
-  border-color: transparent; /* Remove borda visível. */
-  box-shadow: 0 10px 22px rgba(138, 11, 37, 0.2); /* Sombra do botão. */
-  color: var(--branco); /* Texto branco. */
-}
-
-.botao.perigo { /* Estiliza botão de novo dia. */
-  background: #ffe9ee; /* Fundo vermelho claro. */
-  border-color: #f3c4cc; /* Borda avermelhada. */
-  color: var(--vermelho); /* Texto vermelho. */
-}
-
-.cards { /* Organiza cards de resumo. */
-  display: grid; /* Usa grid. */
-  gap: 14px; /* Espaço entre cards. */
-  grid-template-columns: repeat(5, minmax(0, 1fr)); /* Cinco cards no desktop. */
-  margin: 18px 0; /* Espaço externo. */
-}
-
-.cards.grandes { /* Organiza cards grandes do fechamento. */
-  grid-template-columns: repeat(5, minmax(0, 1fr)); /* Cinco colunas. */
-}
-
-.lista { /* Organiza listas de lançamentos e histórico. */
-  display: grid; /* Usa grid. */
-  gap: 10px; /* Espaço entre itens. */
-}
-
-.item { /* Estiliza item das listas. */
-  align-items: center; /* Centraliza verticalmente. */
-  background: #fffafb; /* Fundo suave. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  border-radius: 16px; /* Cantos arredondados. */
-  display: flex; /* Texto e botão lado a lado. */
-  gap: 12px; /* Espaço entre conteúdo e botão. */
-  justify-content: space-between; /* Espaça conteúdo e ação. */
-  padding: 13px; /* Espaço interno. */
-}
-
-.item button { /* Estiliza botão de remover. */
-  background: transparent; /* Remove fundo. */
-  border: 0; /* Remove borda. */
-  color: var(--vermelho); /* Texto vermelho. */
-  cursor: pointer; /* Cursor de clique. */
-  font-weight: 900; /* Texto forte. */
-}
-
-.botoes { /* Organiza botões do fechamento. */
-  display: flex; /* Coloca lado a lado. */
-  flex-wrap: wrap; /* Permite quebrar linha. */
-  gap: 10px; /* Espaço entre botões. */
-  margin-top: 18px; /* Espaço acima. */
-}
-
-.oculto { /* Esconde elementos quando necessário. */
-  display: none !important; /* Garante que fique oculto. */
-}
-
-.melhor { /* Estiliza aviso de melhor dia. */
-  background: linear-gradient(135deg, #fff2f4, #fffafa); /* Fundo claro. */
-  border: 1px solid var(--borda); /* Borda suave. */
-  border-radius: 16px; /* Cantos arredondados. */
-  color: var(--vinho); /* Texto vinho. */
-  font-weight: 900; /* Texto forte. */
-  padding: 15px; /* Espaço interno. */
-}
-
-.status { /* Estiliza status de conexão. */
-  margin-top: 12px; /* Espaço acima. */
-}
-
-@media (max-width: 1050px) { /* Ajusta telas médias. */
-  .cards, .cards.grandes { /* Seleciona cards. */
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Dois cards por linha. */
-  }
-
-  .venda-rapida { /* Ajusta venda rápida. */
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Duas colunas. */
-  }
-}
-
-@media (max-width: 760px) { /* Ajusta celular. */
-  .topo-aprovado { /* Ajusta topo no celular. */
-    padding: 18px 10px 18px; /* Reduz espaçamento. */
-  }
-
-  .logo-aprovada { /* Ajusta logo no celular. */
-    max-height: 220px; /* Reduz altura. */
-    max-width: 96vw; /* Usa largura quase total. */
-  }
-
-  .ornamento, .topo-aprovado::before, .topo-aprovado::after { /* Esconde ornamentos no celular. */
-    display: none; /* Remove para não poluir. */
-  }
-
-  .abas { /* Ajusta abas no celular. */
-    justify-content: flex-start; /* Alinha no começo para rolar. */
-    padding: 12px; /* Reduz espaçamento. */
-  }
-
-  .container { /* Ajusta conteúdo no celular. */
-    padding: 16px 12px 34px; /* Reduz margens. */
-  }
-
-  .painel { /* Ajusta painel no celular. */
-    padding: 16px; /* Reduz espaço interno. */
-  }
-
-  .duas, .estoque, .cards, .cards.grandes, .venda-rapida, .linha { /* Ajusta todas as grades principais. */
-    grid-template-columns: 1fr; /* Usa uma coluna. */
-  }
-
-  .pagamentos { /* Ajusta pagamentos no celular. */
-    flex-direction: column; /* Coloca botões um abaixo do outro. */
-  }
-}
-
-/* ===== TOPO OFICIAL APROVADO - STIVAL SWEET ===== */
-.topo-stival { /* Cria o cabeçalho exatamente no modelo aprovado, sem usar imagem. */
-  background: #fff5ef !important; /* Define o fundo bege claro do topo. */
-  border-bottom: 2px solid #8b001f !important; /* Cria a linha vinho inferior do cabeçalho. */
-  color: #8b001f !important; /* Define vinho como cor principal do cabeçalho. */
-  margin: 0 !important; /* Remove margens externas. */
-  overflow: hidden !important; /* Esconde qualquer enfeite que passe do limite. */
-  padding: 0 !important; /* Remove espaçamento direto do header. */
-  position: relative !important; /* Permite posicionar detalhes decorativos. */
-  text-align: center !important; /* Centraliza todo o conteúdo do topo. */
-  width: 100% !important; /* Faz o topo ocupar a largura inteira. */
-}
-
-.topo-faixa { /* Cria a faixa vinho fina na parte superior. */
-  background: #8b001f !important; /* Define a cor vinho da faixa. */
-  height: 10px !important; /* Define a altura da faixa superior. */
-  width: 100% !important; /* Faz a faixa ocupar toda a largura. */
-}
-
-.topo-conteudo { /* Organiza o ícone, o nome, a frase e o detalhe central. */
-  align-items: center !important; /* Centraliza os itens no eixo horizontal. */
-  display: flex !important; /* Usa flex para organizar em coluna. */
-  flex-direction: column !important; /* Coloca um item abaixo do outro. */
-  justify-content: center !important; /* Centraliza o conteúdo verticalmente. */
-  min-height: 350px !important; /* Mantém a altura parecida com o modelo aprovado. */
-  padding: 28px 20px 34px !important; /* Define espaçamento interno do topo. */
-  position: relative !important; /* Mantém o conteúdo acima do detalhe lateral. */
-  z-index: 2 !important; /* Coloca o conteúdo na frente do ornamento. */
-}
-
-.icone-brigadeiro { /* Desenha um brigadeiro simples sem usar arquivo de imagem. */
-  background:
-    radial-gradient(circle at 28% 28%, #2c120c 0 5px, transparent 6px), /* Granulado escuro 1. */
-    radial-gradient(circle at 58% 22%, #2c120c 0 5px, transparent 6px), /* Granulado escuro 2. */
-    radial-gradient(circle at 72% 46%, #2c120c 0 5px, transparent 6px), /* Granulado escuro 3. */
-    radial-gradient(circle at 38% 56%, #2c120c 0 4px, transparent 5px), /* Granulado escuro 4. */
-    radial-gradient(circle at 52% 72%, #2c120c 0 4px, transparent 5px), /* Granulado escuro 5. */
-    linear-gradient(160deg, #8a4a2b 0%, #5b2919 55%, #3d1a12 100%); /* Corpo do brigadeiro. */
-  border-radius: 50% 50% 42% 42% !important; /* Deixa o doce arredondado. */
-  box-shadow: inset -8px -10px 0 rgba(45, 17, 10, 0.25) !important; /* Dá profundidade ao doce. */
-  height: 78px !important; /* Define altura do brigadeiro. */
-  margin: 0 auto 14px !important; /* Centraliza e cria espaço abaixo. */
-  position: relative !important; /* Permite criar a forminha abaixo. */
-  width: 78px !important; /* Define largura do brigadeiro. */
-}
-
-.icone-brigadeiro::after { /* Desenha a forminha do brigadeiro. */
-  background: #3a1a12 !important; /* Define cor marrom escura da forminha. */
-  border-radius: 0 0 18px 18px !important; /* Arredonda a parte inferior da forminha. */
-  bottom: -8px !important; /* Posiciona abaixo do doce. */
-  content: "" !important; /* Cria o elemento visual vazio. */
-  height: 18px !important; /* Define altura da forminha. */
-  left: 10px !important; /* Centraliza a forminha. */
-  position: absolute !important; /* Posiciona dentro do ícone. */
-  width: 58px !important; /* Define largura da forminha. */
-}
-
-.topo-stival h1 { /* Estiliza o nome Stival Sweet. */
-  color: #8b001f !important; /* Define a cor vinho do nome. */
-  font-family: Georgia, "Times New Roman", serif !important; /* Usa fonte elegante parecida com o modelo. */
-  font-size: clamp(58px, 6vw, 100px) !important; /* Deixa o título grande e responsivo. */
-  font-weight: 500 !important; /* Mantém o texto elegante, sem ficar grosso demais. */
-  letter-spacing: -1px !important; /* Aproxima levemente as letras. */
-  line-height: 1 !important; /* Controla a altura da linha do título. */
-  margin: 0 !important; /* Remove margem padrão do navegador. */
-  text-align: center !important; /* Garante centralização do título. */
-}
-
-.topo-stival p { /* Estiliza a frase abaixo do nome. */
-  color: #8b001f !important; /* Define a frase na cor vinho. */
-  font-family: Arial, Helvetica, sans-serif !important; /* Usa fonte limpa para a frase. */
-  font-size: clamp(18px, 1.55vw, 25px) !important; /* Define tamanho parecido com o print. */
-  line-height: 1.35 !important; /* Melhora a leitura da frase. */
-  margin: 20px 0 20px !important; /* Cria espaço acima e abaixo da frase. */
-  text-align: center !important; /* Centraliza a frase. */
-}
-
-.topo-detalhe { /* Estiliza o detalhe decorativo central inferior. */
-  color: #8b001f !important; /* Define a cor vinho do detalhe. */
-  font-family: Georgia, "Times New Roman", serif !important; /* Usa fonte ornamental. */
-  font-size: 34px !important; /* Define tamanho do detalhe. */
-  line-height: 1 !important; /* Remove espaço extra. */
-  margin: 0 !important; /* Remove margens. */
-  text-align: center !important; /* Centraliza o detalhe. */
-}
-
-.topo-stival::after { /* Cria o detalhe grande e suave do lado direito. */
-  color: #8b001f !important; /* Usa vinho como base do detalhe. */
-  content: "❧" !important; /* Insere o detalhe ornamental lateral. */
-  font-family: Georgia, "Times New Roman", serif !important; /* Usa fonte decorativa. */
-  font-size: 165px !important; /* Define o tamanho grande do detalhe. */
-  line-height: 1 !important; /* Remove espaço vertical extra. */
-  opacity: 0.14 !important; /* Deixa o detalhe bem clarinho. */
-  position: absolute !important; /* Posiciona no canto direito. */
-  right: 28px !important; /* Distância da lateral direita. */
-  top: 96px !important; /* Distância do topo. */
-  transform: rotate(-8deg) !important; /* Inclina levemente para parecer com o modelo. */
-  z-index: 1 !important; /* Mantém o detalhe atrás do conteúdo. */
-}
-
-@media (max-width: 768px) { /* Ajusta o topo em celulares. */
-  .topo-conteudo { /* Ajusta a área interna do topo no celular. */
-    min-height: 285px !important; /* Reduz a altura em telas pequenas. */
-    padding: 24px 14px 28px !important; /* Reduz o espaçamento interno. */
-  }
-
-  .icone-brigadeiro { /* Ajusta o ícone no celular. */
-    height: 64px !important; /* Reduz a altura do doce. */
-    width: 64px !important; /* Reduz a largura do doce. */
-  }
-
-  .icone-brigadeiro::after { /* Ajusta a forminha no celular. */
-    height: 14px !important; /* Reduz a altura da forminha. */
-    left: 8px !important; /* Reposiciona a forminha. */
-    width: 48px !important; /* Reduz a largura da forminha. */
-  }
-
-  .topo-stival h1 { /* Ajusta o nome no celular. */
-    font-size: 48px !important; /* Reduz o título para caber na tela. */
-  }
-
-  .topo-stival p { /* Ajusta a frase no celular. */
-    font-size: 17px !important; /* Reduz a frase. */
-    max-width: 92vw !important; /* Evita que o texto encoste nas laterais. */
-  }
-  .aba-conteudo {
+:root {
+    --vinho: #8b001f;
+    --vinho-escuro: #650017;
+    --vinho-claro: #fff0f2;
+    --fundo: #fff7f2;
+    --branco: #ffffff;
+    --borda: #efcfd3;
+    --texto: #210006;
+    --cinza: #6f6063;
+    --verde: #167a3a;
+    --vermelho: #b52032;
+    --sombra: 0 14px 34px rgba(90, 0, 25, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #fffaf7;
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.topo-stival {
+    background: var(--fundo);
+    border-bottom: 2px solid var(--vinho);
+    color: var(--vinho);
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+}
+
+.faixa-vinho {
+    background: var(--vinho);
+    height: 10px;
+    width: 100%;
+}
+
+.topo-conteudo {
+    padding: 34px 20px 38px;
+    position: relative;
+    z-index: 2;
+}
+
+.icone-brigadeiro {
+    background:
+        radial-gradient(circle at 28% 26%, #2b1008 0 4px, transparent 5px),
+        radial-gradient(circle at 66% 28%, #2b1008 0 4px, transparent 5px),
+        radial-gradient(circle at 44% 50%, #2b1008 0 4px, transparent 5px),
+        radial-gradient(circle at 72% 58%, #2b1008 0 4px, transparent 5px),
+        radial-gradient(circle at 50% 54%, #7a3a24 0 60%, #4b2114 61%);
+    border-radius: 50% 50% 44% 44%;
+    height: 72px;
+    margin: 0 auto 12px;
+    position: relative;
+    width: 72px;
+}
+
+.icone-brigadeiro::after {
+    background: #3b1c13;
+    border-radius: 0 0 18px 18px;
+    bottom: -8px;
+    content: "";
+    height: 18px;
+    left: 8px;
+    position: absolute;
+    width: 56px;
+}
+
+.topo-stival h1 {
+    color: var(--vinho);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 76px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0;
+}
+
+.topo-stival p {
+    color: var(--vinho);
+    font-size: 24px;
+    margin: 18px 0;
+}
+
+.detalhe-topo {
+    color: var(--vinho);
+    font-size: 34px;
+}
+
+.topo-stival::after {
+    color: var(--vinho);
+    content: "❧";
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 160px;
+    opacity: 0.13;
+    position: absolute;
+    right: 34px;
+    top: 80px;
+    transform: rotate(-8deg);
+    z-index: 1;
+}
+
+.menu-abas {
+    align-items: center;
+    background: var(--branco);
+    border-bottom: 1px solid var(--borda);
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    padding: 18px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.botao-aba {
+    background: #fff8f8;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    color: var(--vinho);
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 14px 24px;
+}
+
+.botao-aba.ativo {
+    background: var(--vinho);
+    box-shadow: var(--sombra);
+    color: white;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1260px;
+    padding: 24px;
+}
+
+.aba-conteudo {
     display: none;
 }
 
@@ -578,14 +146,330 @@ input:focus, select:focus { /* Estiliza campos ativos. */
     display: block;
 }
 
-.botao-aba.ativo {
-    background: #8b001f;
+.card {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    box-shadow: var(--sombra);
+    padding: 26px;
+}
+
+h2 {
+    color: var(--vinho);
+    font-size: 28px;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+}
+
+h3 {
+    color: var(--vinho);
+    font-size: 21px;
+    margin: 24px 0 12px;
+}
+
+.texto-ajuda {
+    color: var(--cinza);
+    font-size: 18px;
+    margin: 0 0 22px;
+}
+
+.grade {
+    display: grid;
+    gap: 18px;
+}
+
+.grade.dois {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grade.quatro {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+label {
+    color: #5d0015;
+    display: grid;
+    font-size: 17px;
+    font-weight: 800;
+    gap: 8px;
+}
+
+input,
+select {
+    background: #fffdfc;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    color: var(--texto);
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 15px 18px;
+    width: 100%;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--vinho);
+    box-shadow: 0 0 0 3px rgba(139, 0, 31, 0.12);
+    outline: none;
+}
+
+.espacamento-topo {
+    margin-top: 22px;
+}
+
+.tabela-produtos {
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.linha-produto {
+    align-items: center;
+    border-bottom: 1px solid var(--borda);
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1.35fr 1fr 1fr 0.7fr 0.7fr 1fr;
+    padding: 16px 18px;
+}
+
+.linha-produto:last-child {
+    border-bottom: none;
+}
+
+.cabecalho-produto {
+    background: var(--vinho);
+    color: white;
+    font-size: 17px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.produto strong {
+    font-size: 18px;
+}
+
+.produto output {
+    background: #fff8f8;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    color: var(--vinho);
+    font-size: 18px;
+    font-weight: 900;
+    padding: 14px;
+    text-align: center;
+}
+
+.resumo {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.resumo.grande {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resumo article {
+    background: #fff8f8;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.resumo span {
+    color: var(--vinho);
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.resumo strong {
+    color: var(--vinho);
+    display: block;
+    font-size: 26px;
+}
+
+.resumo small {
+    color: var(--cinza);
+    display: block;
+    font-size: 14px;
+    line-height: 1.35;
+    margin-top: 10px;
+}
+
+.destaque-caixa.faltou {
+    background: #ffe9e9;
+}
+
+.destaque-caixa.sobrou {
+    background: #effff4;
+}
+
+.destaque-caixa.sobrou strong {
+    color: var(--verde);
+}
+
+.destaque-caixa.faltou strong {
+    color: var(--vermelho);
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.botao {
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 900;
+    padding: 15px 22px;
+}
+
+.botao.principal {
+    background: var(--vinho);
     color: white;
 }
 
-  .topo-stival::after { /* Ajusta o detalhe lateral no celular. */
-    font-size: 95px !important; /* Reduz o detalhe. */
-    right: 10px !important; /* Aproxima do canto direito. */
-    top: 92px !important; /* Reposiciona verticalmente. */
-  }
+.botao.secundario {
+    background: white;
+    border: 1px solid var(--vinho);
+    color: var(--vinho);
+}
+
+.botao.perigo {
+    background: #fff0f0;
+    border: 1px solid #d86b78;
+    color: #a3001c;
+}
+
+.oculto {
+    display: none;
+}
+
+.lista {
+    background: #fff8f8;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    color: var(--texto);
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 16px;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 850px) {
+    .topo-stival h1 {
+        font-size: 46px;
+    }
+
+    .topo-stival p {
+        font-size: 17px;
+        line-height: 1.35;
+    }
+
+    .topo-stival::after {
+        font-size: 95px;
+        right: 10px;
+        top: 88px;
+    }
+
+    .menu-abas {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .botao-aba {
+        width: 100%;
+    }
+
+    .grade.dois,
+    .grade.quatro,
+    .resumo,
+    .resumo.grande,
+    .linha-produto {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalho-produto {
+        display: none;
+    }
+
+    .container {
+        padding: 14px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+}
+
+/* Ajuste final: a aba Preparo mostra somente dados preenchidos antes da venda. */
+.preparo-tabela .linha-preparo {
+    align-items: center;
+    border-bottom: 1px solid var(--borda);
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    padding: 16px 18px;
+}
+
+/* Remove a borda da última linha da tabela de preparo. */
+.preparo-tabela .linha-preparo:last-child {
+    border-bottom: none;
+}
+
+/* Cards de controle por doce na aba Venda. */
+.controle-doces {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 12px;
+}
+
+/* Visual de cada card de doce. */
+.controle-doces article {
+    background: #fff8f8;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 18px;
+}
+
+/* Título do card de doce. */
+.controle-doces h4 {
+    color: var(--vinho);
+    font-size: 20px;
+    margin: 0 0 12px;
+}
+
+/* Textos do card de doce. */
+.controle-doces p {
+    margin: 8px 0;
+}
+
+/* Destaque dos números dentro do card de doce. */
+.controle-doces strong {
+    color: var(--vinho);
+}
+
+/* Resumo da aba venda com mais itens. */
+.venda-resumo {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+    .controle-doces,
+    .venda-resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .preparo-tabela .linha-preparo {
+        grid-template-columns: 1fr;
+    }
 }
