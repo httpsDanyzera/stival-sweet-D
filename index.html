@@ -19,14 +19,27 @@
       <div class="topo-detalhe">❦</div> <!-- Detalhe decorativo central. -->
     </div> <!-- Fecha a área central do cabeçalho. -->
   </header> <!-- Fecha o cabeçalho visual oficial. -->
+ <nav class="menu-abas">
+    <button class="botao-aba ativo" data-aba="preparo">1. Preparo</button>
+    <button class="botao-aba" data-aba="venda">2. Venda</button>
+    <button class="botao-aba" data-aba="fechamento">3. Fechamento</button>
+    <button class="botao-aba" data-aba="historico">Histórico</button>
+</nav>
+  <section id="aba-preparo" class="aba-conteudo ativo">
+    <!-- conteúdo do preparo -->
+</section>
 
-  <nav class="abas"> <!-- Cria os botões das abas. -->
-    <button class="aba ativa" data-aba="preparo" type="button">1. Preparo</button> <!-- Abre a preparação. -->
-    <button class="aba" data-aba="venda" type="button">2. Venda</button> <!-- Abre venda rápida. -->
-    <button class="aba" data-aba="fechamento" type="button">3. Fechamento</button> <!-- Abre fechamento. -->
-    <button class="aba" data-aba="historico" type="button">Histórico</button> <!-- Abre histórico. -->
-  </nav> <!-- Fecha os botões das abas. -->
+<section id="aba-venda" class="aba-conteudo">
+    <!-- conteúdo da venda -->
+</section>
 
+<section id="aba-fechamento" class="aba-conteudo">
+    <!-- conteúdo do fechamento -->
+</section>
+
+<section id="aba-historico" class="aba-conteudo">
+    <!-- conteúdo do histórico -->
+</section>
   <main class="container"> <!-- Cria a área principal. -->
     <section id="preparo" class="painel visivel"> <!-- Aba de preparação do dia. -->
       <h2>Preparo antes das vendas</h2> <!-- Título da aba. -->
