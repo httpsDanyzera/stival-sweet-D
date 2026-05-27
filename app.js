@@ -17,6 +17,41 @@ function salvarEstadoLocal() { localStorage.setItem("stival_dia_atual", JSON.str
 function carregarEstadoLocal() { return JSON.parse(localStorage.getItem("stival_dia_atual") || "null"); } // Carrega o dia atual do navegador.
 function salvarHistoricoLocal() { localStorage.setItem("stival_historico", JSON.stringify(historico)); } // Salva histórico no navegador.
 function carregarHistoricoLocal() { return JSON.parse(localStorage.getItem("stival_historico") || "[]"); } // Carrega histórico do navegador.
+function abrirAba(nomeDaAba) {
+    document.querySelectorAll(".aba-conteudo").forEach(secao => {
+        secao.classList.remove("ativo");
+    });
+
+    document.querySelectorAll(".botao-aba").forEach(botao => {
+        botao.classList.remove("ativo");
+    });
+
+    const secaoEscolhida = document.getElementById("aba-" + nomeDaAba);
+
+    const botaoEscolhido = document.querySelector(`[data-aba="${nomeDaAba}"]`);
+
+    if (secaoEscolhida) {
+        secaoEscolhida.classList.add("ativo");
+    }
+
+    if (botaoEscolhido) {
+        botaoEscolhido.classList.add("ativo");
+    }
+}
+
+document.querySelectorAll(".botao-aba").forEach(botao => {
+    botao.addEventListener("click", () => {
+        abrirAba(botao.dataset.aba);
+    });
+});
+
+const btnSalvarPreparo = document.getElementById("btnSalvarPreparo");
+
+if (btnSalvarPreparo) {
+    btnSalvarPreparo.addEventListener("click", () => {
+        abrirAba("venda");
+    });
+}
 
 function criarEstadoVazio() { // Cria um dia novo para venda.
   return { // Retorna o objeto principal do dia.
