@@ -35,11 +35,35 @@ function pegarProdutos() {
         const produto = linha.dataset.produto;
         const feita = Number(linha.querySelector(".qtd-feita").value || 0);
         const valorUnitario = parseValor(linha.querySelector(".valor-unitario").value);
-        const vendida = vendas
+
+        const vendidaUnitario = vendas
             .filter(venda => venda.tipo === "doce" && venda.produto === produto)
             .reduce((soma, venda) => soma + Number(venda.quantidade || 0), 0);
+
+        const vendidaCombo = vendas
+            .filter(venda => venda.tipo === "combo")
+            .reduce((soma, venda) => soma + Number(venda.sabores?.[produto] || 0), 0);
+
+        const vendida = vendidaUnitario + vendidaCombo;
+
+        const totalUnitario = vendas
+            .filter(venda => venda.tipo === "doce" && venda.produto === produto)
+            .reduce((soma, venda) => soma + Number(venda.valorTotal || 0), 0);
+
+        const totalCombo = vendas
+            .filter(venda => venda.tipo === "combo")
+            .reduce((soma, venda) => {
+                const qtdDoSabor = Number(venda.sabores?.[produto] || 0);
+                const totalUnidades = Object.values(venda.sabores || {}).reduce((a, b) => a + Number(b || 0), 0);
+
+                if (totalUnidades <= 0) return soma;
+
+                return soma + (Number(venda.valorTotal || 0) / totalUnidades) * qtdDoSabor;
+            }, 0);
+
         const sobrou = Math.max(feita - vendida, 0);
-        const total = vendida * valorUnitario;
+        const total = totalUnitario + totalCombo;
+
         return { produto, feita, valorUnitario, vendida, sobrou, total };
     });
 }
@@ -125,14 +149,27 @@ function atualizarCampoComissao() {
     const item = el("itemVenda")?.value;
     const campoQuantidade = el("campoQuantidade");
     const campoComissao = el("campoValorComissao");
+    const areaCombo = el("areaCombo");
+
     if (!campoQuantidade || !campoComissao) return;
+
     if (item === "Comissão") {
         campoQuantidade.classList.add("oculto");
         campoComissao.classList.remove("oculto");
-    } else {
+        if (areaCombo) areaCombo.classList.add("oculto");
+        return;
+    }
+
+    if (item === "Combo 3 unidades") {
         campoQuantidade.classList.remove("oculto");
         campoComissao.classList.add("oculto");
+        if (areaCombo) areaCombo.classList.remove("oculto");
+        return;
     }
+
+    campoQuantidade.classList.remove("oculto");
+    campoComissao.classList.add("oculto");
+    if (areaCombo) areaCombo.classList.add("oculto");
 }
 
 function adicionarVenda() {
@@ -141,12 +178,90 @@ function adicionarVenda() {
 
     if (item === "Comissão") {
         const valor = valorCampo("valorComissao");
+
         if (valor <= 0) {
             alert("Informe o valor da comissão.");
             return;
         }
-        vendas.push({ tipo: "comissao", produto: "Comissão", quantidade: 1, valorUnitario: valor, valorTotal: valor, pagamento });
+
+        vendas.push({
+            tipo: "comissao",
+            produto: "Comissão",
+            quantidade: 1,
+            valorUnitario: valor,
+            valorTotal: valor,
+            pagamento
+        });
+
         el("valorComissao").value = "";
+        atualizarTudo();
+        return;
+    }
+
+    if (item === "Combo 3 unidades") {
+        const quantidadeCombo = Number(el("quantidadeVenda").value || 0);
+        const qtdTradicional = Number(el("comboTradicional").value || 0);
+        const qtdNinho = Number(el("comboNinho").value || 0);
+        const qtdCafe = Number(el("comboCafe").value || 0);
+        const valorCombo = valorCampo("valorCombo");
+
+        const totalSabores = qtdTradicional + qtdNinho + qtdCafe;
+
+        if (quantidadeCombo <= 0) {
+            alert("Informe a quantidade de combos vendidos.");
+            return;
+        }
+
+        if (totalSabores !== 3) {
+            alert("O combo precisa ter exatamente 3 brigadeiros.");
+            return;
+        }
+
+        if (valorCombo <= 0) {
+            alert("Informe o valor do combo.");
+            return;
+        }
+
+        const produtos = pegarProdutos();
+
+        const tradicional = produtos.find(p => p.produto === "Tradicional");
+        const ninho = produtos.find(p => p.produto === "Ninho");
+        const cafe = produtos.find(p => p.produto === "Café");
+
+        const baixaTradicional = qtdTradicional * quantidadeCombo;
+        const baixaNinho = qtdNinho * quantidadeCombo;
+        const baixaCafe = qtdCafe * quantidadeCombo;
+
+        if (tradicional.sobrou < baixaTradicional) {
+            alert("Não tem Tradicional suficiente. Sobra atual: " + tradicional.sobrou + ".");
+            return;
+        }
+
+        if (ninho.sobrou < baixaNinho) {
+            alert("Não tem Ninho suficiente. Sobra atual: " + ninho.sobrou + ".");
+            return;
+        }
+
+        if (cafe.sobrou < baixaCafe) {
+            alert("Não tem Café suficiente. Sobra atual: " + cafe.sobrou + ".");
+            return;
+        }
+
+        vendas.push({
+            tipo: "combo",
+            produto: "Combo 3 unidades",
+            quantidade: quantidadeCombo,
+            valorUnitario: valorCombo,
+            valorTotal: valorCombo * quantidadeCombo,
+            pagamento,
+            sabores: {
+                Tradicional: baixaTradicional,
+                Ninho: baixaNinho,
+                Café: baixaCafe
+            }
+        });
+
+        el("quantidadeVenda").value = 1;
         atualizarTudo();
         return;
     }
@@ -158,34 +273,54 @@ function adicionarVenda() {
         alert("Produto não encontrado.");
         return;
     }
+
     if (quantidade <= 0) {
         alert("Informe a quantidade vendida.");
         return;
     }
+
     if (produto.valorUnitario <= 0) {
         alert("Informe o valor unitário do produto na aba Preparo.");
         abrirAba("preparo");
         return;
     }
+
     if (quantidade > produto.sobrou) {
         alert("Não tem quantidade suficiente de " + item + ". Sobra atual: " + produto.sobrou + ".");
         return;
     }
 
-    vendas.push({ tipo: "doce", produto: item, quantidade, valorUnitario: produto.valorUnitario, valorTotal: quantidade * produto.valorUnitario, pagamento });
+    vendas.push({
+        tipo: "doce",
+        produto: item,
+        quantidade,
+        valorUnitario: produto.valorUnitario,
+        valorTotal: quantidade * produto.valorUnitario,
+        pagamento
+    });
+
     el("quantidadeVenda").value = 1;
     atualizarTudo();
 }
 
 function atualizarListaVendas() {
     const lista = el("listaVendas");
+
     if (!lista) return;
+
     if (!vendas.length) {
         lista.textContent = "Nenhuma venda lançada ainda.";
         return;
     }
+
     lista.innerHTML = vendas.map((venda, indice) => {
-        return `<div><strong>${indice + 1}.</strong> ${venda.produto} | Qtd: ${venda.quantidade} | ${venda.pagamento} | ${moeda(venda.valorTotal)} <button type="button" onclick="removerVenda(${indice})">Remover</button></div>`;
+        let detalhe = "";
+
+        if (venda.tipo === "combo") {
+            detalhe = ` | Trad: ${venda.sabores.Tradicional}, Ninho: ${venda.sabores.Ninho}, Café: ${venda.sabores.Café}`;
+        }
+
+        return `<div><strong>${indice + 1}.</strong> ${venda.produto} | Qtd: ${venda.quantidade}${detalhe} | ${venda.pagamento} | ${moeda(venda.valorTotal)} <button type="button" onclick="removerVenda(${indice})">Remover</button></div>`;
     }).join("");
 }
 
