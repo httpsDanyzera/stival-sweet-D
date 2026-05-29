@@ -324,11 +324,6 @@ function atualizarListaVendas() {
     }).join("");
 }
 
-function removerVenda(indice) {
-    vendas.splice(indice, 1);
-    atualizarTudo();
-}
-
 function montarDia() {
     const resumo = calcularResumo();
     return {
@@ -416,30 +411,79 @@ function relatorioTexto() {
     const dia = montarDia();
     const resumo = dia.resumo;
     const linhas = [];
+
     linhas.push("STIVAL SWEET - RELATÓRIO DO DIA");
     linhas.push("Data: " + dia.data_venda);
     linhas.push("");
-    linhas.push("PRODUTOS:");
+
+    linhas.push("RESUMO DOS DOCES:");
     resumo.produtos.forEach(produto => {
-        linhas.push(`${produto.produto}: feita ${produto.feita}, vendeu ${produto.vendida}, sobrou ${produto.sobrou}, total ${moeda(produto.total)}`);
+        linhas.push(
+            produto.produto +
+            ": feita " + produto.feita +
+            ", vendeu " + produto.vendida +
+            ", sobrou " + produto.sobrou +
+            ", total " + moeda(produto.total)
+        );
     });
+
     linhas.push("");
     linhas.push("LANÇAMENTOS:");
-    vendas.forEach(venda => linhas.push(`${venda.produto} | Qtd: ${venda.quantidade} | ${venda.pagamento} | ${moeda(venda.valorTotal)}`));
+
+    vendas.forEach(venda => {
+        if (venda.tipo === "combo") {
+            linhas.push(
+                "Combo 3 unidades" +
+                " | Qtd combos: " + venda.quantidade +
+                " | Tradicional: " + venda.sabores.Tradicional +
+                " | Ninho: " + venda.sabores.Ninho +
+                " | Café: " + venda.sabores.Café +
+                " | " + venda.pagamento +
+                " | " + moeda(venda.valorTotal)
+            );
+            return;
+        }
+
+        if (venda.tipo === "comissao") {
+            linhas.push(
+                "Comissão" +
+                " | " + venda.pagamento +
+                " | " + moeda(venda.valorTotal)
+            );
+            return;
+        }
+
+        linhas.push(
+            venda.produto +
+            " | Qtd: " + venda.quantidade +
+            " | " + venda.pagamento +
+            " | " + moeda(venda.valorTotal)
+        );
+    });
+
     linhas.push("");
-    linhas.push("Total bruto doces: " + moeda(resumo.totalBruto));
-    linhas.push("Total líquido doces: " + moeda(resumo.totalLiquido));
+    linhas.push("TOTAIS:");
+    linhas.push("Total bruto dos doces: " + moeda(resumo.totalBruto));
+    linhas.push("Total líquido dos doces: " + moeda(resumo.totalLiquido));
     linhas.push("Comissão separada: " + moeda(resumo.totalComissao));
     linhas.push("Custo produção: " + moeda(resumo.custoProducao));
     linhas.push("Transporte/Uber da venda: " + moeda(resumo.custoTransporte));
     linhas.push("Custos totais: " + moeda(resumo.custosTotais));
     linhas.push("Total recebido: " + moeda(resumo.totalRecebido));
+
+    linhas.push("");
+    linhas.push("FORMAS DE PAGAMENTO:");
     linhas.push("Pix: " + moeda(resumo.pix));
     linhas.push("Dinheiro: " + moeda(resumo.dinheiro));
     linhas.push("Cartão: " + moeda(resumo.cartao));
+
+    linhas.push("");
+    linhas.push("CAIXA:");
+    linhas.push("Troco inicial: " + moeda(resumo.trocoInicial));
     linhas.push("Dinheiro esperado: " + moeda(resumo.dinheiroEsperado));
     linhas.push("Dinheiro final: " + moeda(resumo.dinheiroFinal));
     linhas.push("Falta/Sobra caixa: " + moeda(resumo.diferencaCaixa));
+
     return linhas.join("\n");
 }
 
@@ -498,3 +542,4 @@ function iniciar() {
 }
 
 document.addEventListener("DOMContentLoaded", iniciar);
+
