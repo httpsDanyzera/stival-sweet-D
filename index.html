@@ -88,6 +88,11 @@
                             <option value="Ninho">Ninho</option>
                             <option value="Café">Café</option>
                             <option value="Comissão">Comissão</option>
+                            id="produtoVenda" onchange="controlarCombo()">
+                            <option>Tradicional</option>
+                            <option>Ninho</option>
+                            <option>Café</option>
+                            <option>Combo 3 unidades</option>
                         </select>
                     </label>
 
@@ -107,7 +112,31 @@
                         </select>
                     </label>
                 </div>
+<div id="areaCombo" style="display: none; margin-top: 16px;">
+    <h3>Escolha os sabores do combo</h3>
 
+    <div class="grid tres">
+        <label>Tradicional no combo
+            <input id="comboTradicional" type="number" min="0" value="1">
+        </label>
+
+        <label>Ninho no combo
+            <input id="comboNinho" type="number" min="0" value="1">
+        </label>
+
+        <label>Café no combo
+            <input id="comboCafe" type="number" min="0" value="1">
+        </label>
+
+        <label>Valor do combo
+            <input id="valorCombo" type="number" min="0" step="0.01" placeholder="Ex: 12">
+        </label>
+    </div>
+
+    <p style="color:#8b001f; font-weight:bold;">
+        A soma dos sabores precisa dar 3 unidades.
+    </p>
+</div>
                 <button id="btnAdicionarVenda" class="botao principal" type="button">Adicionar venda</button>
 
                 <div class="grade dois espacamento-topo">
